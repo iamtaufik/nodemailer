@@ -31,7 +31,10 @@ const sendEmail = async ({ to, subject, html }) => {
 };
 
 sendEmail({
-  to: ['muhtaufik@students.amikom.ac.id','muhtaufikhdyt567@gmail.com'],
+  to: ['muhtaufik@students.amikom.ac.id', 'muhtaufikhdyt567@gmail.com'],
   subject: 'Test Node Mailer Multipe reciver',
-  html: '<h1 style="background-color: aqua; color: black; padding: 4px;">Hello World</h1>',
+  html: `
+  <h1>Verivikasi Email</h1>
+  <p>Untuk vervikasi klik <a href="www.google.com">disini</a></p>
+  `,
 });
