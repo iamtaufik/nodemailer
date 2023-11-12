@@ -1,6 +1,6 @@
-require('dotenv').config();
-const { oaut2Client } = require('./utils/oauth2');
+const { oaut2Client } = require('../utils/oauth2');
 const nodeMailer = require('nodemailer');
+const ejs = require('ejs');
 
 // set credential
 oaut2Client.setCredentials({
@@ -8,6 +8,7 @@ oaut2Client.setCredentials({
 });
 
 const sendEmail = async ({ to, subject, html }) => {
+  console.log(to);
   try {
     const accessToken = await oaut2Client.getAccessToken();
     const transport = nodeMailer.createTransport({
@@ -30,11 +31,17 @@ const sendEmail = async ({ to, subject, html }) => {
   }
 };
 
-sendEmail({
-  to: ['muhtaufik@students.amikom.ac.id', 'muhtaufikhdyt567@gmail.com'],
-  subject: 'Test Node Mailer Multipe reciver',
-  html: `
-  <h1>Verivikasi Email</h1>
-  <p>Untuk vervikasi klik <a href="www.google.com">disini</a></p>
-  `,
-});
+const getHtml = (fileName, data) => {
+  return new Promise((resolve, reject) => {
+    const path = `${__dirname}/../views/templates/${fileName}`;
+
+    ejs.renderFile(path, data, (err, data) => {
+      if (err) {
+        return reject(err);
+      }
+      return resolve(data);
+    });
+  });
+};
+
+module.exports = { sendEmail, getHtml };
